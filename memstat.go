@@ -48,10 +48,10 @@ func MemUtilization(ip, community string, timeout, retry int) (int, error) {
 			}
 		}
 	case "Cisco_IOS_ASR":
-		memUsedOid := "1.3.6.1.4.1.9.9.109.1.1.1.1.12.1"
+		memUsedOid := "1.3.6.1.4.1.9.9.109.1.1.1.1.12.7"
 		snmpMemUsed, _ := RunSnmp(ip, community, memUsedOid, method, timeout)
 
-		memFreeOid := "1.3.6.1.4.1.9.9.109.1.1.1.1.13.1"
+		memFreeOid := "1.3.6.1.4.1.9.9.109.1.1.1.1.13.7"
 		snmpMemFree, _ := RunSnmp(ip, community, memFreeOid, method, timeout)
 
 		if len(snmpMemFree) == 0 || len(snmpMemUsed) == 0 {
