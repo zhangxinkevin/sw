@@ -53,6 +53,8 @@ func SysVendor(ip, community string, retry int, timeout int) (string, error) {
 			return "Cisco_IOS_XE", err
 		} else if strings.Contains(sysDescr, "Cisco IOS XR") {
 			return "Cisco_IOS_XR", err
+		} else if strings.Contains(sysDescr, "ASR") {
+			return "Cisco_IOS_ASR", err
 		} else {
 			return "Cisco", err
 		}
