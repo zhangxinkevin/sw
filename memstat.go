@@ -47,6 +47,28 @@ func MemUtilization(ip, community string, timeout, retry int) (int, error) {
 				return int(memUtili * 100), nil
 			}
 		}
+	case "Cisco_IOS_ASR":
+		memUsedOid := "1.3.6.1.4.1.9.9.109.1.1.1.1.12.1"
+		snmpMemUsed, _ := RunSnmp(ip, community, memUsedOid, method, timeout)
+
+		memFreeOid := "1.3.6.1.4.1.9.9.109.1.1.1.1.13.1"
+		snmpMemFree, _ := RunSnmp(ip, community, memFreeOid, method, timeout)
+
+		if len(snmpMemFree) == 0 || len(snmpMemUsed) == 0 {
+			err := errors.New(ip + " No Such Object available on this agent at this OID")
+			return 0, err
+		} else {
+			if snmpMemUsed[0].Value == nil || snmpMemFree[0].Value == nil {
+				err := errors.New(ip + " mem value return nil")
+				return 0, err
+			}
+			memUsed := snmpMemUsed[0].Value.(int)
+			memFree := snmpMemFree[0].Value.(int)
+			if memUsed+memFree != 0 {
+				memUtili := float64(memUsed) / float64(memUsed+memFree)
+				return int(memUtili * 100), nil
+			}
+		}
 	case "Cisco_IOS_XR":
 		return getCisco_IOS_XR_Mem(ip, community, timeout, retry)
 	case "Cisco_ASA", "Cisco_ASA_OLD":
