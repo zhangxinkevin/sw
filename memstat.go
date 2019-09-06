@@ -80,7 +80,7 @@ func MemUtilization(ip, community string, timeout, retry int) (int, error) {
 		memSizeOid := "1.3.6.1.2.1.25.2.3.1.5.1020"
 		snmpMemSize, _ := RunSnmp(ip, community, memSizeOid, method, timeout)
 
-		if len(snmpMemFree) == 0 || len(snmpMemSize) == 0 {
+		if len(snmpMemUsed) == 0 || len(snmpMemSize) == 0 {
 			err := errors.New(ip + " No Such Object available on this agent at this OID")
 			return 0, err
 		} else {
@@ -102,7 +102,7 @@ func MemUtilization(ip, community string, timeout, retry int) (int, error) {
 		memSizeOid := "1.3.6.1.2.1.25.2.3.1.5.20"
 		snmpMemSize, _ := RunSnmp(ip, community, memSizeOid, method, timeout)
 
-		if len(snmpMemFree) == 0 || len(snmpMemSize) == 0 {
+		if len(snmpMemUsed) == 0 || len(snmpMemSize) == 0 {
 			err := errors.New(ip + " No Such Object available on this agent at this OID")
 			return 0, err
 		} else {
