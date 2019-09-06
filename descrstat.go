@@ -69,6 +69,23 @@ func SysVendor(ip, community string, retry int, timeout int) (string, error) {
 		}
 		return "Cisco_ASA", err
 	}
+
+	if strings.Contains(sysDescrLower, "Palo Alto Networks") {
+		if strings.Contains(sysDescr, "PA-500") {
+			return "PA_500", err
+		}
+
+		if strings.Contains(sysDescr, "PA-800") {
+			return "PA_800", err
+		}
+
+		if strings.Contains(sysDescr, "PA-3000") {
+			return "PA_3000", err
+		}
+
+		return "PA", err
+	}
+
 	if strings.Contains(sysDescrLower, "h3c") {
 		if strings.Contains(sysDescr, "Software Version 5") {
 			return "H3C_V5", err

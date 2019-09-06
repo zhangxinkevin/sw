@@ -73,6 +73,50 @@ func MemUtilization(ip, community string, timeout, retry int) (int, error) {
 		return getCisco_IOS_XR_Mem(ip, community, timeout, retry)
 	case "Cisco_ASA", "Cisco_ASA_OLD":
 		return getCisco_ASA_Mem(ip, community, timeout, retry)
+	case "PA_800":
+		memUsedOid := "1.3.6.1.2.1.25.2.3.1.6.1020"
+		snmpMemUsed, _ := RunSnmp(ip, community, memUsedOid, method, timeout)
+
+		memSizeOid := "1.3.6.1.2.1.25.2.3.1.5.1020"
+		snmpMemSize, _ := RunSnmp(ip, community, memSizeOid, method, timeout)
+
+		if len(snmpMemFree) == 0 || len(snmpMemSize) == 0 {
+			err := errors.New(ip + " No Such Object available on this agent at this OID")
+			return 0, err
+		} else {
+			if snmpMemUsed[0].Value == nil || snmpMemSize[0].Value == nil {
+				err := errors.New(ip + " mem value return nil")
+				return 0, err
+			}
+			memUsed := snmpMemUsed[0].Value.(int)
+			memSize := snmpMemSize[0].Value.(int)
+			if memSize != 0 {
+				memUtili := float64(memUsed) / float64(memSize)
+				return int(memUtili * 100), nil
+			}
+		}
+	case "PA_500", "PA_3000":
+		memUsedOid := "1.3.6.1.2.1.25.2.3.1.6.20"
+		snmpMemUsed, _ := RunSnmp(ip, community, memUsedOid, method, timeout)
+
+		memSizeOid := "1.3.6.1.2.1.25.2.3.1.5.20"
+		snmpMemSize, _ := RunSnmp(ip, community, memSizeOid, method, timeout)
+
+		if len(snmpMemFree) == 0 || len(snmpMemSize) == 0 {
+			err := errors.New(ip + " No Such Object available on this agent at this OID")
+			return 0, err
+		} else {
+			if snmpMemUsed[0].Value == nil || snmpMemSize[0].Value == nil {
+				err := errors.New(ip + " mem value return nil")
+				return 0, err
+			}
+			memUsed := snmpMemUsed[0].Value.(int)
+			memSize := snmpMemSize[0].Value.(int)
+			if memSize != 0 {
+				memUtili := float64(memUsed) / float64(memSize)
+				return int(memUtili * 100), nil
+			}
+		}
 	case "Huawei", "Huawei_V5.70", "Huawei_V5.130":
 		oid = "1.3.6.1.4.1.2011.5.25.31.1.1.1.1.7"
 		return getH3CHWcpumem(ip, community, oid, timeout, retry)
