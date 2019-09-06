@@ -38,6 +38,8 @@ func CpuUtilization(ip, community string, timeout, retry int) (int, error) {
 	case "Cisco_ASA_OLD":
 		oid = "1.3.6.1.4.1.9.9.109.1.1.1.1.4"
 		return getCiscoASAcpu(ip, community, oid, timeout, retry)
+	case "Cisco_WCL":
+		oid = "1.3.6.1.4.1.14179.1.1.5.1.0"
 	case "Huawei", "Huawei_V5.70", "Huawei_V5.130":
 		oid = "1.3.6.1.4.1.2011.5.25.31.1.1.1.1.5"
 		return getH3CHWcpumem(ip, community, oid, timeout, retry)
