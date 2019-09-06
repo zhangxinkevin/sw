@@ -70,7 +70,7 @@ func SysVendor(ip, community string, retry int, timeout int) (string, error) {
 		return "Cisco_ASA", err
 	}
 
-	if strings.Contains(sysDescrLower, "Palo Alto Networks") {
+	if strings.Contains(sysDescrLower, "palo alto networks") {
 		if strings.Contains(sysDescr, "PA-500") {
 			return "PA_500", err
 		}
