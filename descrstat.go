@@ -49,7 +49,7 @@ func SysVendor(ip, community string, retry int, timeout int) (string, error) {
 	}
 
 	if strings.Contains(sysDescrLower, "cisco ios") {
-		if strings.Contains(sysDescr, "IOS-XE Software") {
+		if strings.Contains(sysDescr, "Catalyst L3") {
 			return "Cisco_IOS_XE", err
 		} else if strings.Contains(sysDescr, "Cisco IOS XR") {
 			return "Cisco_IOS_XR", err
