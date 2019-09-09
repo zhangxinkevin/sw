@@ -23,6 +23,8 @@ func CpuDataUtilization(ip, community string, timeout, retry int) (int, error) {
 	switch vendor {
 	case "PA_800", "PA":
 		oid = "1.3.6.1.2.1.25.3.3.1.2.2"
+	default:
+		return 0, err
 	}
 
 	var snmpPDUs []gosnmp.SnmpPDU
