@@ -8,7 +8,7 @@ import (
 	"github.com/gaochao1/gosnmp"
 )
 
-func ApJoinStatus(ip, community string, timeout, retry int) (int, error) {
+func ConInUseStatus(ip, community string, timeout, retry int) (int, error) {
 	defer func() {
 		if r := recover(); r != nil {
 			log.Println(ip+" Recovered in CPUtilization", r)
@@ -22,8 +22,8 @@ func ApJoinStatus(ip, community string, timeout, retry int) (int, error) {
 	var oid string
 
 	switch vendor {
-	case "Cisco_WCL":
-		oid = "1.3.6.1.4.1.9.9.618.1.8.4.0"
+	case "Cisco_ASA", "Cisco_ASA_OLD":
+		oid = "1.3.6.1.4.1.9.9.147.1.2.2.2.1.5.40.6"
 	default:
 		err = errors.New(ip + " Switch Vendor is not defined")
 		return 0, err
