@@ -1,9 +1,7 @@
 package sw
 
 import (
-	"errors"
 	"log"
-	"strings"
 	"time"
 
 	"github.com/gaochao1/gosnmp"
