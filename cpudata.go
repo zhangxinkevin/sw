@@ -1,6 +1,7 @@
 package sw
 
 import (
+	"errors"
 	"log"
 	"time"
 
@@ -24,6 +25,7 @@ func CpuDataUtilization(ip, community string, timeout, retry int) (int, error) {
 	case "PA_800", "PA":
 		oid = "1.3.6.1.2.1.25.3.3.1.2.2"
 	default:
+		err = errors.New(ip + " Switch Vendor is not defined")
 		return 0, err
 	}
 
