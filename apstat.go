@@ -23,6 +23,8 @@ func ApJoinStatus(ip, community string, timeout, retry int) (int, error) {
 	switch vendor {
 	case "Cisco_WCL":
 		oid = "1.3.6.1.4.1.9.9.618.1.8.4.0"
+	default:
+		return 0, err
 	}
 
 	var snmpPDUs []gosnmp.SnmpPDU
