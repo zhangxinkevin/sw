@@ -97,7 +97,7 @@ func MemUtilization(ip, community string, timeout, retry int) (int, error) {
 				return int(memUtili * 100), nil
 			}
 		}
-	case "PA_500", "PA_3000", "PA":
+	case "PA":
 		memUsedOid := "1.3.6.1.2.1.25.2.3.1.6.20"
 		snmpMemUsed, _ := RunSnmp(ip, community, memUsedOid, method, timeout)
 

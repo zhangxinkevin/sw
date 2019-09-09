@@ -75,16 +75,8 @@ func SysVendor(ip, community string, retry int, timeout int) (string, error) {
 	}
 
 	if strings.Contains(sysDescrLower, "palo alto networks") {
-		if strings.Contains(sysDescr, "PA-500") {
-			return "PA_500", err
-		}
-
 		if strings.Contains(sysDescr, "PA-800") {
 			return "PA_800", err
-		}
-
-		if strings.Contains(sysDescr, "PA-3000") {
-			return "PA_3000", err
 		}
 
 		return "PA", err
