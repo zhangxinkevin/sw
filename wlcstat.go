@@ -3,7 +3,6 @@ package sw
 import (
 	"fmt"
 	"log"
-	"strconv"
 	"strings"
 	"time"
 
@@ -108,13 +107,13 @@ func ListWlcStats(ip, community string, timeout int, ignoreIface []string, retry
 				wlcStats.ApIndex = apIndexStr
 
 				for ti, apPowerStatusPDU := range apPowerStatusList {
-					if strings.Replace(apPowerStatusPDU.Name, apPowerStatusPrefix, "", 1) == apIndexStr {
+					if strings.Replace(apPowerStatusPDU.Name, apPowerStatusOidPrefix, "", 1) == apIndexStr {
 						wlcStats.ApPowerStatus = apPowerStatusList[ti].Value.(uint64)
 						break
 					}
 				}	
                                 for ti, apEthernetIfInputErrorsPDU := range apEthernetIfInputErrorsList {
-                                        if strings.Replace(apEthernetIfInputErrorsPDU.Name, apEthernetIfInputErrorsPrefix, "", 1) == apIndexStr {
+                                        if strings.Replace(apEthernetIfInputErrorsPDU.Name, apEthernetIfInputErrorsOidPrefix, "", 1) == apIndexStr {
                                                 wlcStats.ApEthernetIfInputErrors = apEthernetIfInputErrorsList[ti].Value.(uint64)
                                                 break
                                         }
