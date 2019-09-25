@@ -108,13 +108,13 @@ func ListWlcStats(ip, community string, timeout int, ignoreIface []string, retry
 
 				for ti, apPowerStatusPDU := range apPowerStatusList {
 					if strings.Replace(apPowerStatusPDU.Name, apPowerStatusOidPrefix, "", 1) == apIndexStr {
-						wlcStats.ApPowerStatus = apPowerStatusList[ti].Value.(uint64)
+						wlcStats.ApPowerStatus = apPowerStatusList[ti].Value.(int)
 						break
 					}
 				}	
                                 for ti, apEthernetIfInputErrorsPDU := range apEthernetIfInputErrorsList {
                                         if strings.Replace(apEthernetIfInputErrorsPDU.Name, apEthernetIfInputErrorsOidPrefix, "", 1) == apIndexStr {
-                                                wlcStats.ApEthernetIfInputErrors = apEthernetIfInputErrorsList[ti].Value.(uint64)
+                                                wlcStats.ApEthernetIfInputErrors = apEthernetIfInputErrorsList[ti].Value.(int)
                                                 break
                                         }
                                 }
