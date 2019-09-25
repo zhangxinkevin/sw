@@ -36,9 +36,9 @@ type WlcStats struct {
         TS                   int64
         ApIndex string
         ApName  string
-        ApPowerStatus   uint64
-        ApAssociatedClientCount uint64
-        ApEthernetIfInputErrors uint64
+        ApPowerStatus   int
+        ApAssociatedClientCount int
+        ApEthernetIfInputErrors int
 }
 
 //type WlcStats struct {
