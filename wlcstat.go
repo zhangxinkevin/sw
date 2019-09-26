@@ -21,8 +21,8 @@ const (
         apMemoryCurrentUsageOidPrefix	= ".1.3.6.1.4.1.9.9.513.1.1.1.1.55."
 	apCpuCurrentUsageOid	= "1.3.6.1.4.1.9.9.513.1.1.1.1.57"
         apCpuCurrentUsageOidPrefix	= ".1.3.6.1.4.1.9.9.513.1.1.1.1.57."
-	apApConnectCountOid	= "1.3.6.1.4.1.9.9.513.1.1.1.1.66"
-        apApConnectCountOidPrefix	= ".1.3.6.1.4.1.9.9.513.1.1.1.1.66."
+	apConnectCountOid	= "1.3.6.1.4.1.9.9.513.1.1.1.1.66"
+        apConnectCountOidPrefix	= ".1.3.6.1.4.1.9.9.513.1.1.1.1.66."
 	apReassocFailCountOid	= "1.3.6.1.4.1.9.9.513.1.1.1.1.68"
         apReassocFailCountOidPrefix	= ".1.3.6.1.4.1.9.9.513.1.1.1.1.68."
 	apAssocFailTimesOid	= "1.3.6.1.4.1.9.9.513.1.1.1.1.75"
@@ -128,7 +128,7 @@ func ListWlcStats(ip, community string, timeout int, ignoreIface []string, retry
 	apPowerStatusList := <-chApPowerStatusList
 	apAssociatedClientCountList := <-chApAssociatedClientCountList	
 	apEthernetIfInputErrorsList := <-chApEthernetIfInputErrorsList
-	apEthernetIfOutputErrorsLis := <-chApEthernetIfOutputErrorsList
+	apEthernetIfOutputErrorsList := <-chApEthernetIfOutputErrorsList
 	apMemoryCurrentUsageList := <-chApMemoryCurrentUsageList
 	apCpuCurrentUsageList := <-chApCpuCurrentUsageList
 	apConnectCountList:= <-chApConnectCountList
