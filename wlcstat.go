@@ -13,6 +13,8 @@ const (
 	//AP 
 	apNameOid	= "1.3.6.1.4.1.9.9.513.1.1.1.1.5"
         apNameOidPrefix	= ".1.3.6.1.4.1.9.9.513.1.1.1.1.5."
+	apUpTimeOid	= "1.3.6.1.4.1.9.9.513.1.1.1.1.6"
+	apUpTimeOidPrefix = ".1.3.6.1.4.1.9.9.513.1.1.1.1.6."
 	apPowerStatusOid	= "1.3.6.1.4.1.9.9.513.1.1.1.1.20"
         apPowerStatusOidPrefix	= ".1.3.6.1.4.1.9.9.513.1.1.1.1.20."
 	apAssociatedClientCountOid	= "1.3.6.1.4.1.9.9.513.1.1.1.1.54"
@@ -37,6 +39,7 @@ type WlcStats struct {
         TS                   int64
         ApIndex string
         ApName  string
+	ApUpTime	int
         ApPowerStatus   int
         ApAssociatedClientCount int
         ApEthernetIfInputErrors int
@@ -82,6 +85,7 @@ func ListWlcStats(ip, community string, timeout int, ignoreIface []string, retry
 		}
 	}()
 	chApNameList := make(chan []gosnmp.SnmpPDU)
+	chApUpTimeList := make(chan []gosnmp.SnmpPDU)
         chApPowerStatusList := make(chan []gosnmp.SnmpPDU)
 	chApAssociatedClientCountList := make(chan []gosnmp.SnmpPDU)
 	chApEthernetIfInputErrorsList := make(chan []gosnmp.SnmpPDU)
@@ -95,6 +99,9 @@ func ListWlcStats(ip, community string, timeout int, ignoreIface []string, retry
         limitCh <- true
 	go ListApName(ip, community, timeout, chApNameList, retry, limitCh)
 	time.Sleep(5 * time.Millisecond)
+        limitCh <- true
+        go ListApUpTime(ip, community, timeout, chApUpTimeList, retry, limitCh)
+        time.Sleep(5 * time.Millisecond)
         limitCh <- true
         go ListApPowerStatus(ip, community, timeout, chApPowerStatusList, retry, limitCh)
         time.Sleep(5 * time.Millisecond)
@@ -125,6 +132,7 @@ func ListWlcStats(ip, community string, timeout int, ignoreIface []string, retry
 
 
 	apNameList := <-chApNameList
+	apUpTimeList := <-chApUpTimeList
 	apPowerStatusList := <-chApPowerStatusList
 	apAssociatedClientCountList := <-chApAssociatedClientCountList	
 	apEthernetIfInputErrorsList := <-chApEthernetIfInputErrorsList
@@ -155,6 +163,13 @@ func ListWlcStats(ip, community string, timeout int, ignoreIface []string, retry
 						break
 					}
 				}
+
+                                for ti, apUpTimePDU := range apUpTimeList {
+                                        if strings.Replace(apUpTimePDU.Name, apUpTimeOidPrefix, "", 1) == apIndexStr {
+                                                wlcStats.ApUpTime = apUpTimeList[ti].Value.(int)
+                                                break
+                                        }
+                                }
 
                                 for ti, apAssociatedClientCountPDU := range apAssociatedClientCountList {
                                         if strings.Replace(apAssociatedClientCountPDU.Name, apAssociatedClientCountOidPrefix, "", 1) == apIndexStr {
@@ -228,6 +243,10 @@ func ListApName(ip, community string, timeout int, ch chan []gosnmp.SnmpPDU, ret
 
 func ListApPowerStatus(ip, community string, timeout int, ch chan []gosnmp.SnmpPDU, retry int, limitCh chan bool) {
         RunSnmpRetry(ip, community, timeout, ch, retry, limitCh, apPowerStatusOid)
+}
+
+func ListApUpTime(ip, community string, timeout int, ch chan []gosnmp.SnmpPDU, retry int, limitCh chan bool) {
+        RunSnmpRetry(ip, community, timeout, ch, retry, limitCh, apUpTimeOid)
 }
 
 func ListApAssociatedClientCount(ip, community string, timeout int, ch chan []gosnmp.SnmpPDU, retry int, limitCh chan bool) {
