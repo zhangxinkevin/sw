@@ -246,7 +246,7 @@ func ListApMemoryCurrentUsage(ip, community string, timeout int, ch chan []gosnm
         RunSnmpRetry(ip, community, timeout, ch, retry, limitCh, apMemoryCurrentUsageOid)
 }
 
-func ListApCpuCurrentUsage((ip, community string, timeout int, ch chan []gosnmp.SnmpPDU, retry int, limitCh chan bool) {
+func ListApCpuCurrentUsage(ip, community string, timeout int, ch chan []gosnmp.SnmpPDU, retry int, limitCh chan bool) {
         RunSnmpRetry(ip, community, timeout, ch, retry, limitCh, apCpuCurrentUsageOid)
 }
 
