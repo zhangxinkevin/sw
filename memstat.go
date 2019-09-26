@@ -73,7 +73,7 @@ func MemUtilization(ip, community string, timeout, retry int) (int, error) {
 		return getCisco_IOS_XR_Mem(ip, community, timeout, retry)
 	case "Cisco_ASA", "Cisco_ASA_OLD":
 		return getCisco_ASA_Mem(ip, community, timeout, retry)
-	case "Cisco_WCL":
+	case "Cisco_WLC":
 		oid = "1.3.6.1.4.1.9.9.618.1.8.6.0"
 	case "PA_800":
 		memUsedOid := "1.3.6.1.2.1.25.2.3.1.6.1020"

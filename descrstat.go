@@ -71,7 +71,7 @@ func SysVendor(ip, community string, retry int, timeout int) (string, error) {
 	}
 
 	if strings.Contains(sysDescr, "Cisco Controller") {
-		return "Cisco_WCL", err
+		return "Cisco_WLC", err
 	}
 
 	if strings.Contains(sysDescrLower, "palo alto networks") {

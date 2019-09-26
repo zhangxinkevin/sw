@@ -22,7 +22,7 @@ func ApJoinStatus(ip, community string, timeout, retry int) (int, error) {
 	var oid string
 
 	switch vendor {
-	case "Cisco_WCL":
+	case "Cisco_WLC":
 		oid = "1.3.6.1.4.1.9.9.618.1.8.4.0"
 	default:
 		err = errors.New(ip + " Switch Vendor is not defined")
