@@ -120,6 +120,41 @@ func Test_ListIfStatsSnmpWalk(t *testing.T) {
 		fmt.Println("value:", np)
 	}
 }
+
+func Test_ListDiskStats(t *testing.T) {
+	ignoreIface := []string{"Vl"}
+	ignorePkt := true
+	ignoreOperStatus := true
+	ignoreMulticastPkt := true
+	ignoreBroadcastPkt := true
+	ignoreDiscards := true
+	ignoreErrors := true
+	ignoreUnknownProtos := true
+	ignoreOutQLen := true
+	if np, err := ListDiskStats(ip, community, timeout, ignoreIface, retry, limitConn, ignorePkt, ignoreOperStatus, ignoreBroadcastPkt, ignoreMulticastPkt, ignoreDiscards, ignoreErrors, ignoreUnknownProtos, ignoreOutQLen); err != nil {
+		t.Error(err)
+	} else {
+		fmt.Println("value:", np)
+	}
+}
+
+func Test_ListAcIfStats(t *testing.T) {
+	ignoreIface := []string{"Vl"}
+	ignorePkt := true
+	ignoreOperStatus := true
+	ignoreMulticastPkt := true
+	ignoreBroadcastPkt := true
+	ignoreDiscards := true
+	ignoreErrors := true
+	ignoreUnknownProtos := true
+	ignoreOutQLen := true
+	if np, err := ListAcIfStats(ip, community, timeout, ignoreIface, retry, limitConn, ignorePkt, ignoreOperStatus, ignoreBroadcastPkt, ignoreMulticastPkt, ignoreDiscards, ignoreErrors, ignoreUnknownProtos, ignoreOutQLen); err != nil {
+		t.Error(err)
+	} else {
+		fmt.Println("value:", np)
+	}
+}
+
 func Test_SysModel(t *testing.T) {
 	if np, err := SysModel(ip, community, retry, timeout); err != nil {
 		t.Error(err)

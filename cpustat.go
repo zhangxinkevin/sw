@@ -64,6 +64,9 @@ func CpuUtilization(ip, community string, timeout, retry int) (int, error) {
 	case "Dell":
 		oid = "1.3.6.1.4.1.674.10895.5000.2.6132.1.1.1.1.4.11"
 		return getDellCpu(ip, community, oid, timeout, retry)
+	case "AC", "AD":
+		method = "getnext"
+		oid = "1.3.6.1.4.1.35047.1.3"
 	case "Linux":
 		oid = "1.3.6.1.4.1.2021.11.11.0"
 		return getLinuxCpu(ip, community, oid, timeout, retry)

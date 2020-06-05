@@ -140,6 +140,12 @@ func MemUtilization(ip, community string, timeout, retry int) (int, error) {
 		return getRuijiecpumem(ip, community, oid, timeout, retry)
 	case "Dell":
 		return GetDellMem(ip, community, timeout, retry)
+	// case "AC":
+	// 	method = "getnext"
+	// 	oid = "1.3.6.1.4.1.35047.1.4"
+	case "AD":
+		method = "getnext"
+		oid = "1.3.6.1.4.1.35047.2.2.19"
 	case "Linux":
 		return GetLinuxMem(ip, community, timeout, retry)
 	default:
