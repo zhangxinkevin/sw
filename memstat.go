@@ -5,6 +5,8 @@ import (
 	"log"
 	"strconv"
 	"time"
+        "regexp"
+        "strings"
 
 	"github.com/gaochao1/gosnmp"
 )
@@ -140,9 +142,9 @@ func MemUtilization(ip, community string, timeout, retry int) (int, error) {
 		return getRuijiecpumem(ip, community, oid, timeout, retry)
 	case "Dell":
 		return GetDellMem(ip, community, timeout, retry)
-	// case "AC":
-	// 	method = "getnext"
-	// 	oid = "1.3.6.1.4.1.35047.1.4"
+	case "AC":
+	        method = "getnext"
+		return getAC_Mem(ip, community, timeout, retry)
 	case "AD":
 		method = "getnext"
 		oid = "1.3.6.1.4.1.35047.2.2.19"
@@ -296,6 +298,19 @@ func GetDellMem(ip, community string, timeout, retry int) (int, error) {
 	}
 	return 0, err
 }
+
+func getAC_Mem(ip, community string, timeout, retry int) (int, error) {
+        memFreeOid := "1.3.6.1.4.1.35047.1.4"
+        memFree, err := RunSnmp(ip, community, memFreeOid, method, timeout)
+        if &memFree[0] != nil {
+            memfree := memFree[0].Value.(string)
+            newmemfree := int(StringReg(memfree).(float64))
+            return newmemfree, err
+        }
+        return 0, err
+}
+
+
 func GetLinuxMem(ip, community string, timeout, retry int) (int, error) {
 	method := "get"
 	memTotalOid := "1.3.6.1.4.1.2021.4.5.0"
@@ -309,4 +324,48 @@ func GetLinuxMem(ip, community string, timeout, retry int) (int, error) {
 		return int(memUtili * 100), nil
 	}
 	return 0, err
+}
+
+func StringReg(result string) interface{} {
+	reg := regexp.MustCompile(`\d+`)
+	if strings.Contains(result, ".") {
+		reg = regexp.MustCompile(`\d+\.\d+`)
+	}
+	if reg == nil {
+		return "0"
+	}
+	newResult := reg.FindAllStringSubmatch(result, -1)[0][0]
+
+	if strings.Contains(result, ".") {
+		intResult, err := strconv.ParseFloat(newResult, 2)
+		if err != nil {
+			return 0
+		}
+		if strings.Contains(result, "K") {
+			return intResult * 1000
+		}
+		if strings.Contains(result, "M") {
+			return intResult * 1000 * 1000
+		}
+		if strings.Contains(result, "G") {
+			return intResult * 1000 * 1000 * 1000
+		}
+		return intResult
+	} else {
+		intResult, err := strconv.Atoi(newResult)
+		if err != nil {
+			return 0
+		}
+		if strings.Contains(result, "K") {
+			return intResult * 1000
+		}
+		if strings.Contains(result, "M") {
+			return intResult * 1000 * 1000
+		}
+		if strings.Contains(result, "G") {
+			return intResult * 1000 * 1000 * 1000
+		}
+		return intResult
+	}
+
 }
