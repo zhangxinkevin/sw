@@ -143,7 +143,6 @@ func MemUtilization(ip, community string, timeout, retry int) (int, error) {
 	case "Dell":
 		return GetDellMem(ip, community, timeout, retry)
 	case "AC":
-	        method = "getnext"
 		return getAC_Mem(ip, community, timeout, retry)
 	case "AD":
 		method = "getnext"
@@ -300,8 +299,9 @@ func GetDellMem(ip, community string, timeout, retry int) (int, error) {
 }
 
 func getAC_Mem(ip, community string, timeout, retry int) (int, error) {
-        memFreeOid := "1.3.6.1.4.1.35047.1.4"
-        memFree, err := RunSnmp(ip, community, memFreeOid, method, timeout)
+        oid := "1.3.6.1.4.1.35047.1.4"
+	method := "getnext"
+        memFree, err := RunSnmp(ip, community, oid, method, timeout)
         if &memFree[0] != nil {
             memfree := memFree[0].Value.(string)
             newmemfree := int(StringReg(memfree).(float64))
